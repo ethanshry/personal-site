@@ -1,11 +1,13 @@
 <script>
   import { onMount } from "svelte";
+  import Blog from "./Blog.svelte";
+  import Home from "./Home.svelte";
+  import Projects from "./Projects.svelte";
   let padded = (elements) => {
     let max = elements.reduce(
       (max, curr) => (curr.length > max ? curr.length : max),
       0
     );
-    console.log(max);
     return elements.map((e) => {
       while (e.length < max) {
         e = `${e} `;
@@ -19,7 +21,6 @@
     "impart knowledge",
     "share my story",
   ]);
-  console.log(options);
   let currOption = 0;
   let textChanger = () =>
     setInterval(() => {
@@ -30,20 +31,52 @@
     document.getElementById("rolling-text").innerHTML = options[currOption];
     textChanger();
   });
+
+  export let activeTab = 0;
+
+  // curried function for updating activeTab
+  export let setTab = (tabNo) => () => {
+    console.log("ok");
+    activeTab = tabNo;
+  };
 </script>
 
 <main>
-  <h1>Hello!</h1>
-  <div class="container">
-    <div>I am working hard to&nbsp;</div>
-    <div id="rolling-text" />
-  </div>
-  <p>Check back soon!</p>
+  <navbar>
+    <header>ethanshry.com</header>
+    <navitems>
+      <navitem
+        class="navitem {activeTab == 0 ? 'active' : ''}"
+        on:click={setTab(0)}
+      >
+        Home
+      </navitem>
+      <navitem
+        class="navitem {activeTab == 1 ? 'active' : ''}"
+        on:click={setTab(1)}
+      >
+        Projects
+      </navitem>
+      <navitem
+        class="navitem {activeTab == 2 ? 'active' : ''}"
+        on:click={setTab(2)}
+      >
+        Blog
+      </navitem>
+    </navitems>
+  </navbar>
+  <content>
+    {#if activeTab === 2}
+      <Blog />
+    {:else if activeTab === 1}
+      <Projects />
+    {:else}
+      <Home />
+    {/if}
+  </content>
 </main>
 
 <style>
-  @import url("https://fonts.googleapis.com/css2?family=Anonymous+Pro:ital,wght@0,400;0,700;1,400&display=swap");
-
   main {
     text-align: center;
     padding: 1em;
@@ -51,59 +84,39 @@
     margin: 0 auto;
   }
 
-  h1 {
-    color: #ff3e00;
-    text-transform: uppercase;
-    font-size: 4em;
-    font-weight: 100;
-  }
-
-  div,
-  p {
-    font-family: "Anonymous Pro", monospace;
-  }
-
-  .container {
+  navbar {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
   }
 
-  #rolling-text {
-    display: inline-block;
-    position: relative;
-    white-space: pre;
-    animation: rolling 3s forwards infinite;
+  header {
+    color: var(--theme);
+    font-size: 1.2em;
   }
 
-  @keyframes rolling {
-    0% {
-      top: -2em;
-      opacity: 0;
-    }
-    20% {
-      top: 0em;
-      opacity: 1;
-    }
-    80% {
-      top: 0em;
-      opacity: 1;
-    }
-    100% {
-      top: 2em;
-      opacity: 0;
-    }
+  navitems {
+    display: none;
+    justify-content: space-evenly;
+    min-width: 50%;
+    cursor: pointer;
   }
-  /*
-  @keyframes rolling {
-    100% {
-      transform: rotate(360deg);
-      opacity: 0;
-    }
-  }*/
+
+  navitem:not(.active):hover {
+    transition: border-bottom 1.5s;
+    border-bottom: 2px solid var(--theme);
+  }
+
+  navitem.active {
+    transition: border-bottom 2s;
+    border-bottom: 2px solid var(--theme);
+  }
 
   @media (min-width: 640px) {
     main {
       max-width: none;
+    }
+    navitems {
+      display: flex;
     }
   }
 </style>
