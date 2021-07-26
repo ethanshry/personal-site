@@ -3,34 +3,6 @@
   import Blog from "./Blog.svelte";
   import Home from "./Home.svelte";
   import Projects from "./Projects.svelte";
-  let padded = (elements) => {
-    let max = elements.reduce(
-      (max, curr) => (curr.length > max ? curr.length : max),
-      0
-    );
-    return elements.map((e) => {
-      while (e.length < max) {
-        e = `${e} `;
-      }
-      return e;
-    });
-  };
-
-  let options = padded([
-    "bring you value",
-    "impart knowledge",
-    "share my story",
-  ]);
-  let currOption = 0;
-  let textChanger = () =>
-    setInterval(() => {
-      document.getElementById("rolling-text").innerHTML = options[currOption];
-      currOption = ++currOption % options.length;
-    }, 3000);
-  onMount(() => {
-    document.getElementById("rolling-text").innerHTML = options[currOption];
-    textChanger();
-  });
 
   export let activeTab = 0;
 
