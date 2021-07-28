@@ -1,4 +1,9 @@
-/node_modules/
-/public/build/
+site/node_modules/
+site/public/build/
 
-.DS_Store
+site/.DS_Store
+
+
+blog_api/*/lambda.zip
+blog_api/*/target/
+blog_api/.env
