@@ -4,6 +4,6 @@ site/public/build/
 site/.DS_Store
 
 
-blog_api/*/lambda.zip
-blog_api/*/target/
+blog_api/lambda.zip
+blog_api/target/
 blog_api/.env

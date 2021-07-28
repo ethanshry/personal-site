@@ -6,7 +6,7 @@
     "build": "rollup -c",
     "dev": "rollup -c -w",
     "start": "sirv public --no-clear",
-    "deploy": "bash deploy.sh"
+    "deploy": "rollup -c && bash deploy.sh"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^17.0.0",
@@ -22,6 +22,6 @@
     "autoprefixer": "^9.8.6",
     "postcss": "^7.0.36",
     "sirv-cli": "^1.0.0",
-    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.1.2"
+    "svelte-hero-icons": "^2.2.0"
   }
 }
