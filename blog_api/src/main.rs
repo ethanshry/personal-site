@@ -12,6 +12,8 @@ async fn main() -> Result<(), Error> {
     Ok(())
 }
 
+// TODO move to dynomite???
+
 async fn func(event: Value, _: Context) -> Result<Value, Error> {
     let credentialProvider = AwsCredentials::new(
         std::env::var("ID").unwrap(),
@@ -19,7 +21,11 @@ async fn func(event: Value, _: Context) -> Result<Value, Error> {
         None,
         None,
     );
-    let client = DynamoDbClient::new(Region::UsEast1);
+    let client = DynamoDbClient::new_with(
+        rusoto_core::request::DispatchSignedRequest::def,
+        credentialProvider,
+        Region::UsEast1,
+    );
     let first_name = event["firstName"].as_str().unwrap_or("world");
 
     Ok(json!({ "message": format!("Hello, {}!", first_name) }))
