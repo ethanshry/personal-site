@@ -12,9 +12,8 @@ cargoclean:
 	cargo sweep -t 7
 
 build-api:
-	cd ./data_request && \
 	cargo build --release --target x86_64-unknown-linux-musl && \
-	cp ./target/x86_64-unknown-linux-musl/release/data_request ./bootstrap && \
+	cp ./target/x86_64-unknown-linux-musl/release ./bootstrap && \
 	zip lambda.zip bootstrap && \
 	rm bootstrap
 
